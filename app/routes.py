@@ -3,7 +3,7 @@ from werkzeug.urls import url_parse
 from app import app, db
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Book
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, AddBookForm
 
 @app.shell_context_processor
 def make_shell_context():
@@ -71,3 +71,17 @@ def user(username):
     {'author': 'test2', 'title': 'Test Book 2'},
   ]
   return render_template('user.html', user=user, books=books)
+
+@app.route('/add-book', methods=['GET', 'POST'])
+@login_required
+def add_book():
+  if current_user.is_anonymous:
+    return redirect(url_for('login'))
+  form = AddBookForm()
+  if form.validate_on_submit():
+    book = Book(author=form.author.data, title=form.title.data, read=form.read.data, user_id=current_user.id)
+    db.session.add(book)
+    db.session.commit()
+     flash('Your book is now added!')
+    return redirect(url_for('user', username=current_user.username ))
+  return render_template('add_book.html', title='Add A Book', form=form)

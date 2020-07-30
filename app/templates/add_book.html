@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add A New Book To Your Bookshelf</h1>
+    <form action="" method="post">
+      {{ form.hidden_tag() }}
+      <p>
+          {{ form.author.label }}<br>
+          {{ form.author(size=64) }}<br>
+          {% for error in form.author.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+      </p>
+      <p>
+          {{ form.title.label }}<br>
+          {{ form.title(size=64) }}<br>
+          {% for error in form.title.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+      </p>
+      <p>
+          {{ form.read.label }}<br>
+          {{ form.read(size=32) }}<br>
+          {% for error in form.read.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+      </p>
+      <p>{{ form.submit() }}</p>
+  </form>
+{% endblock %}

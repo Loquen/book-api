@@ -37,5 +37,15 @@ class Book(db.Model):
   read = db.Column(db.Boolean, index=True, default=False)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+  def finished_books(self):
+    return Book.query.join()
+    # user is current user, and book.read = true
+
+  def new_books(self):
+    return Book.query.filter(Book.user_id == self.id)
+
+  def all_books(self):
+    return Book.query.filter(Book.user_id == self.id)
+
   def __repr__(self):
     return '<Book {}>'.format(self.title)
